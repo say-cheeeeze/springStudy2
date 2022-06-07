@@ -7,10 +7,7 @@ import java.io.InputStreamReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import config.AppConfig1;
-import config.AppConfig2;
-import config.AppConfigImport;
-//import config.AppCtx;
+import config.AppCtx;
 import spring.ChangePasswordService;
 import spring.DuplicateMemberException;
 import spring.MemberInfoPrinter;
@@ -38,7 +35,7 @@ public class MainForSpring {
 //		ctx = new AnnotationConfigApplicationContext( AppConfig1.class, AppConfig2.class );
 		
 		// Import 를 사용한 설정파일을 통해 스프링 컨테이너를 생성한다.
-		ctx = new AnnotationConfigApplicationContext( AppConfigImport.class );
+		ctx = new AnnotationConfigApplicationContext( AppCtx.class );
 
 		BufferedReader reader = new BufferedReader( new InputStreamReader( System.in ) );
 		
@@ -172,6 +169,8 @@ public class MainForSpring {
 		System.out.println( "회원 단건 정보 조회 : info 이메일" );
 		System.out.println( "모든 회원 목록 조회 : list" );
 		System.out.println( "프로그램 버전 확인 : version" );
+		System.out.println( "프로그램 종료 : exit" );
+		System.out.println( "명령어 확인 : Enter" );
 		System.out.println();
 	}
 

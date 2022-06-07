@@ -2,6 +2,8 @@ package spring;
 
 import java.time.LocalDateTime;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  *  회원가입 서비스 레파지토리 인터페이스 객체
  * @author cheeeeze
@@ -9,12 +11,16 @@ import java.time.LocalDateTime;
  */
 public class MemberRegistService {
 
+	@Autowired
 	private MemberDAO memberDAO;
 	
 	/**
 	 * 회원가입 서비스.  의존 객체 전달
 	 * @param memberDAO
 	 */
+	public MemberRegistService() {
+	}
+	
 	public MemberRegistService( MemberDAO memberDAO ) {
 		this.memberDAO = memberDAO;
 	}
