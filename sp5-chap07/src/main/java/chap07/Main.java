@@ -6,7 +6,9 @@ public class Main {
 	public static void main( String[] args ) {
 		
 		CalculatorImpl cal = new CalculatorImpl();
+		ExeTimeCalculator cal2 = new ExeTimeCalculator(cal);
+//		RecCalculator cal = new RecCalculator();
 		
-		cal.factorial( 5 );
+		cal2.factorial( 5 );
 	}
 }
