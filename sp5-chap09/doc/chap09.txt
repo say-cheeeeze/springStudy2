@@ -1,0 +1,6 @@
+스프링MVC 를 구성하기 위해
+MvcConfig.java 에서 설정
+
+web.xml 에서 서블릿 xml 설정 
+
+톰캣9 등록
