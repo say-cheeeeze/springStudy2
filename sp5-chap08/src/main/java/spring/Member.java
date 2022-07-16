@@ -2,6 +2,8 @@ package spring;
 
 import java.time.LocalDateTime;
 
+import org.springframework.transaction.annotation.Transactional;
+
 /**
  *	Member객체
  * @author cheeeeze
@@ -47,6 +49,8 @@ public class Member {
 	public LocalDateTime getInputDateTime() {
 		return this.inputDateTime;
 	}
+	
+	@Transactional
 	public void changePassword( String oldpwd, String newPwd ) {
 		if ( !memberPassword.equals( oldpwd )) {
 			throw new WrongIdPasswordException();
@@ -54,6 +58,9 @@ public class Member {
 		this.memberPassword = newPwd;
 	}
 	
+	public void memberPrint() {
+		System.out.println( "ID : " + this.memberId + " / NAME : " + this.memberName + " / EMAIL : " + this.memberEmail );
+	}
 	
 	
 	

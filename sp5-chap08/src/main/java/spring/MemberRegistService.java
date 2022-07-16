@@ -26,21 +26,18 @@ public class MemberRegistService {
 	 */
 	public Long regist( RegisterRequest request ) {
 		
-//		Member member = memberDAO.selectByEmail( request.getEmail() );
-//		
-//		if ( member != null ) {
-//			throw new DuplicateMemberException( "email 중복!" + request.getEmail() );
-//		}
-//		
-//		Member newMember = new Member(
-//				request.getEmail(), request.getPassword(), request.getName(), LocalDateTime.now() );
-//		
-//		memberDAO.insert( newMember );
-//		
-//		return newMember.getId();
-//
-		return (long) 1;
+		Member member = memberDAO.selectByEmail( request.getEmail() );
 		
+		if ( member != null ) {
+			throw new DuplicateMemberException( "email 중복!" + request.getEmail() );
+		}
+		
+		Member newMember = new Member(
+				request.getEmail(), request.getPassword(), request.getName(), LocalDateTime.now() );
+		
+		memberDAO.insert( newMember );
+		
+		return newMember.getId();
 	}
 	
 }

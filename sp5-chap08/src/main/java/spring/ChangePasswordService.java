@@ -1,10 +1,13 @@
 package spring;
 
+import org.springframework.transaction.annotation.Transactional;
+
 /**
  * 비밀번호 변경 서비스 클래스
  * @author cheeeeze
  *
  */
+
 public class ChangePasswordService {
 
 	private MemberDAO memberDAO;
@@ -13,6 +16,7 @@ public class ChangePasswordService {
 		this.memberDAO = memberDAO;
 	}
 	
+	@Transactional
 	public void changePassword( String email, String oldPwd, String newPwd ) {
 		
 		Member member = memberDAO.selectByEmail( email );

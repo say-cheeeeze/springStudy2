@@ -1,5 +1,11 @@
 mysql 로 프로젝트를 실습합니당
 
+username : spring5
+password : spring5
+로 계정을 만들고
+
+spring5fs
+database 를 생성한다.
 
 create user 'spring5'@'localhost' identified by 'spring5';
 
@@ -15,3 +21,5 @@ NAME varchar(100),
 REGDATE datetime,
 unique key (EMAIL)
 ) engine=InnoDB character set = utf8
+
+작업 전 mysql 서버 구동 먼저 해야함!

@@ -15,7 +15,7 @@ public class MemberListPrinter {
 	
 	public void printAll() {
 		
-		Collection<Member> memberListAll = memberDAO.getMemberAll();
+		Collection<Member> memberListAll = memberDAO.listAll();
 		memberListAll.forEach( item -> memberPrinter.print( item ) );
 	}
 }
