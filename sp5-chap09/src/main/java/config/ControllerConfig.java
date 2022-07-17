@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import chap09.HelloController;
 
 @Configuration
-public class BeanConfig {
+public class ControllerConfig {
 	
 	@Bean
 	public HelloController helloController() {

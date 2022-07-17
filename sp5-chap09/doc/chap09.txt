@@ -3,4 +3,4 @@ MvcConfig.java 에서 설정
 
 web.xml 에서 서블릿 xml 설정 
 
-톰캣9 등록
+톰캣8.5 등록

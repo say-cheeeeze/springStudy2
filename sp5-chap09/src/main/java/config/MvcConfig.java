@@ -24,22 +24,16 @@ public class MvcConfig implements WebMvcConfigurer {
 	 */
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-		
 		configurer.enable();
 	}
+
 	
 	/**
 	 * JSP 를 이용해서 컨트롤러의 실행 결과를 매핑하기 위한 설정
 	 */
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
-		
-		// ViewResolverRegistry.jsp() 는 jsp 를 view 구현으로 사용할 수 있도록 해주는 설정이다.
-		// 첫번째 파라미터는 jsp 파일 경로 prefix 이며
-		// 두번째 파라미터는 접미사이다.
-		// 이 둘을 합쳐서 최종적으로 사용할 jsp 파일의 경로를 설정한다.
-		registry.jsp( "WEB-INF/view/", ".jsp" );
+		registry.jsp("/WEB-INF/view/", ".jsp");
 	}
-	
 
 }
