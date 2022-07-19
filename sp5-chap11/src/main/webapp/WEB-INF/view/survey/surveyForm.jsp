@@ -45,6 +45,9 @@
 	<input type="submit" value="전송">
 	</form> -->
 	
+
+	<!-- form 태그를 기존 하드코딩의 방식에서 컨트롤러로부터 모델을 받는 구조로 변경 -->
+	
 	<form method="post">
 		<c:forEach var="question" items="${ questionList }" varStatus="status">
 			<p>

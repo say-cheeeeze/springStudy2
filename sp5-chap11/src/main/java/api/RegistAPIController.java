@@ -58,12 +58,11 @@ public class RegistAPIController {
 	 * @return
 	 */
 	@PostMapping( "/step2" )
-	public String handleStep2( @RequestParam( value = "agree", defaultValue = "false" ) Boolean agree, Model model ) {
+	public String handleStep2( @RequestParam( value = "agree", defaultValue = "false" ) Boolean agree, RegisterRequest reqigsterRequest ) {
 		if ( !agree ) {
 			return goStep1();
 		}
 		
-		model.addAttribute( "registerRequest", new RegisterRequest() );
 		return goStep2();
 	}
 	
