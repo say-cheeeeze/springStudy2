@@ -1,5 +1,11 @@
 package spring;
 
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * 등록하기 위한 Member 객체
  * @author cheeeeze
@@ -7,9 +13,17 @@ package spring;
  */
 public class RegisterRequest {
 	
+	@NotBlank
+	@Email
 	private String email;
+	
+	@Size(min = 6)
 	private String password;
+	
+	@NotEmpty
 	private String confirmPassword;
+	
+	@NotEmpty
 	private String name;
 	
 	public String getEmail() {

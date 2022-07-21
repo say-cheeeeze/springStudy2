@@ -1,10 +1,12 @@
 package api;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -103,14 +105,18 @@ public class RegistAPIController {
 	 * 주의해야할 점은 메소드 시그니처의 파라미터 순서에
 	 * 커맨드 객체보다 Errors 선언 위치가 뒤쪽에 위치해야한다.
 	 * 
+	 * 커맨드 객체에 @Valid 애노테이션을 통해 글로벌 검증할 수 있다.
+	 * 내부 메소드에서 검증할 로직을 작성하지 않아도 된다. 단, Errors 파라미터는 메소드 시그니처에 포함되어야 한다.
+	 * 없는 경우에 400 에러가 전달된다. 
+	 * 
 	 * @param req
 	 * @return
 	 */
 	@PostMapping( "/step3" )
-	public String handleStep3( RegisterRequest req, Errors errors ) {
+	public String handleStep3( @Valid RegisterRequest req, Errors errors ) {
 		
 		// RegisterRequest 커맨드 객체의 값이 올바른지 검사하고 그 결과를 Errors 객체에 담는다.
-		new RegisterRequestValidator().validate( req, errors );
+//		new RegisterRequestValidator().validate( req, errors );
 		
 		// 유효하지 않은 값이 있으면 rejectValue() 메서드를 실행하면 errors.hasErrors() 메서드는 true 를 반환한다.
 		// 그 때엔 step2 페이지로 이동하게 한다.
@@ -129,6 +135,16 @@ public class RegistAPIController {
 			return goStep2();
 		}
 	}
+	
+	// -> Bean Validation 을 사용하기 위해 주석처리 ( 스프링은 별도로 설정한 글로벌 Validator 가 없을 경우에
+	// OptionalValidatorFactoryBean 을 글로벌 범위 Validator 로 사용한다. 이 설정이 남아있으면
+	// OptionalValidatorFactoryBean 을 사용할 수 없게 된다. )
+	// https://www.notion.so/chapter-12-Spring-MVC-958e7fe0fd5942219a5aeb619596704a
+//	@InitBinder
+//	protected void initBinder( WebDataBinder binder ) {
+//		binder.setValidator( new RegisterRequestValidator() );
+//	}
+	
 	
 	
 	

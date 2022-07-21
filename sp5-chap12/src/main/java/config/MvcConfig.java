@@ -1,14 +1,14 @@
 package config;
 
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.validation.Validator;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import util.RegisterRequestValidator;
 
 /**
  * 스프링 MVC 설정 클래스
@@ -40,4 +40,19 @@ public class MvcConfig implements WebMvcConfigurer {
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController( "/main" ).setViewName( "main" );
 	}
+	
+	/**
+	 * 글로벌 범위 Validator 설정하기 위해 WebMvcConfigurer 의 getValidator() 메서드의 반환타입을
+	 * Validator 인터페이스의 구현 객체로 설정
+	 * 
+	 * -> Bean Validation 을 사용하기 위해 주석처리 ( 스프링은 별도로 설정한 글로벌 Validator 가 없을 경우에
+	 * OptionalValidatorFactoryBean 을 글로벌 범위 Validator 로 사용한다. 이 설정이 남아있으면
+	 * OptionalValidatorFactoryBean 을 사용할 수 없게 된다. )
+	 * https://www.notion.so/chapter-12-Spring-MVC-958e7fe0fd5942219a5aeb619596704a
+	 * 
+	 */ 
+//	@Override
+//	public Validator getValidator() {
+//		return new RegisterRequestValidator();
+//	}
 }
