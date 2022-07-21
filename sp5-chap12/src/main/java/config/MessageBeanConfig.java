@@ -21,9 +21,10 @@ public class MessageBeanConfig {
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
 		
 		// message 패키지에 속한 label 프로퍼티 파일로부터 메시지를 읽어온다고 설정.
-		// src/main/resources 디렉토리도 클래스 path 에 추가되고, message 폴더도 message 패키지에 해당된다.
-		// 따라서 이 설정은 src/main/resources/label.properties 파일을 읽어온다.
-		messageSource.setBasenames( "message.label" );
+		// src/main/resources 디렉토리 ( src/resource 가 아님 디렉토리 경로 주의!! ㅋㅋ )도 클래스 path 에 추가되고,
+		// message 폴더도 message 패키지에 해당되기 때문에,
+		// 결론적으로 src/main/resources/message/label.properties 파일을 읽어온다.
+		messageSource.setBasenames( "message.label", "message.error" );
 		
 		messageSource.setDefaultEncoding( "UTF-8" );
 		return messageSource;

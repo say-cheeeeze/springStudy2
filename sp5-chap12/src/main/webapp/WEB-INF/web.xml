@@ -29,6 +29,7 @@
 				config.MvcConfig
 				config.MemberConfig
 				config.ControllerConfig
+				config.MessageBeanConfig
 			</param-value>
 		</init-param>
 
@@ -39,7 +40,7 @@
 	<!-- 모든 요청을 Dispatcher 서블릿이 처리하도록 매핑. -->
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/</url-pattern>	
 	</servlet-mapping>
 	
 	<!-- HTTP 요청 파라미터의 인코딩 처리를 위해 서블릿 필터를 등록한다.

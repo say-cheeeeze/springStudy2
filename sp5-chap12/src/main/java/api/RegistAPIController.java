@@ -2,6 +2,7 @@ package api;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import spring.DuplicateMemberException;
 import spring.MemberRegistService;
 import spring.RegisterRequest;
+import util.RegisterRequestValidator;
 
 @Controller
 @RequestMapping( "/register")
@@ -96,15 +98,25 @@ public class RegistAPIController {
 	 * 회원가입에 성공하면 3 단계로 이동
 	 * 동일한 이메일 주소를 가진 회원이 있으면 2 페이지로 다시 이동
 	 * 
-	 * ModelAttribute 는 View 에서 사용할 커맨드 객체명을 바꿀 수 있게 해줌 
+	 * ModelAttribute 는 View 에서 사용할 커맨드 객체명을 바꿀 수 있게 해줌
+	 * 
+	 * 주의해야할 점은 메소드 시그니처의 파라미터 순서에
+	 * 커맨드 객체보다 Errors 선언 위치가 뒤쪽에 위치해야한다.
 	 * 
 	 * @param req
 	 * @return
 	 */
 	@PostMapping( "/step3" )
-//	public String handleStep3( RegisterRequest req ) {
-	public String handleStep3( @ModelAttribute( "formData" ) RegisterRequest req ) {
+	public String handleStep3( RegisterRequest req, Errors errors ) {
 		
+		// RegisterRequest 커맨드 객체의 값이 올바른지 검사하고 그 결과를 Errors 객체에 담는다.
+		new RegisterRequestValidator().validate( req, errors );
+		
+		// 유효하지 않은 값이 있으면 rejectValue() 메서드를 실행하면 errors.hasErrors() 메서드는 true 를 반환한다.
+		// 그 때엔 step2 페이지로 이동하게 한다.
+		if ( errors.hasErrors() ) {
+			return goStep2();
+		}
 		
 		try {
 			
@@ -112,6 +124,8 @@ public class RegistAPIController {
 			return goStep3();
 		}
 		catch( DuplicateMemberException e ) {
+			// 동일한 이메일을 가진 회원 데이터가 있으면 email 프로퍼티의 에러 코드로 duplicate 를 추가한다.
+			errors.rejectValue( "email", "duplicate" );
 			return goStep2();
 		}
 	}
