@@ -1,13 +1,16 @@
 package config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.Validator;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import interceptor.AuthCheckInterceptor;
 import util.RegisterRequestValidator;
 
 /**
@@ -55,4 +58,23 @@ public class MvcConfig implements WebMvcConfigurer {
 //	public Validator getValidator() {
 //		return new RegisterRequestValidator();
 //	}
+	
+	/**
+	 * HandleInterceptor 구현체를 적용할 설정을 추가한다.
+	 * 
+	 * addPathPatterns 는 인터셉트를 적용할 경로 패턴을 Ant 경로 패턴을 이용하여 설정한다.
+	 * 제외할 경로 패턴은 excludePathPatterns 로 추가한다. 두 개 이상이면 각 경로 패턴을 콤마로 구분한다.
+	 */
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		
+		registry.addInterceptor( authCheckInterceptor() )
+				.addPathPatterns( "/edit/**" )
+				.excludePathPatterns( "/edit/help/**" );
+	}
+	
+	@Bean
+	public AuthCheckInterceptor authCheckInterceptor() {
+		return new AuthCheckInterceptor();
+	}
 }

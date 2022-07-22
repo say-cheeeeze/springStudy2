@@ -29,7 +29,19 @@ public class ChangePwdController {
 	}
 	
 	@GetMapping
-	public String form( @ModelAttribute( "command" ) ChangePwdCommand pwdCmd ) {
+	public String form( @ModelAttribute( "command" ) ChangePwdCommand pwdCmd, HttpSession session ) {
+		
+		System.out.println( "#########################" );
+		System.out.println( "#### /edit/changePassword 컨트롤러입니다...... ####" );
+		System.out.println( "#########################" );
+		
+		AuthInfo authInfo = ( AuthInfo ) session.getAttribute( "authInfo" );
+		
+		// 만약 로그인하지 않았으면 로그인화면으로 리다이렉트
+		if ( authInfo == null ) {
+			return "redirect:/login";
+		}
+		
 		return "edit/changePwdForm";
 	}
 	
