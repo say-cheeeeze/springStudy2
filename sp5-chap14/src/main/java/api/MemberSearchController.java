@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -20,7 +21,12 @@ public class MemberSearchController {
 	}
 	
 	@RequestMapping( "/members" )
-	public String memberList( @ModelAttribute( "cmd" ) SearchCommand searchCommand, Model model ) {
+	public String memberList( @ModelAttribute( "cmd" ) SearchCommand searchCommand, Errors errors, Model model ) {
+		
+		if ( errors.hasErrors() ) {
+			return "member/memberList";
+		}
+		
 		
 		if ( searchCommand.getFrom() != null && searchCommand.getTo() != null ) {
 			

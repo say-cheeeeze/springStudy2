@@ -8,6 +8,7 @@ import api.ChangePwdController;
 import api.LoginController;
 import api.LogoutController;
 import api.MainController;
+import api.MemberDetailController;
 import api.MemberSearchController;
 import api.RegistAPIController;
 import api.SurveyAPIController;
@@ -73,5 +74,12 @@ public class ControllerConfig {
 		MemberSearchController memberSearchController = new MemberSearchController();
 		memberSearchController.setMemberDAO( memberDAO );
 		return memberSearchController;
+	}
+	
+	@Bean
+	public MemberDetailController memberDetailController() {
+		MemberDetailController memberDetailController = new MemberDetailController();
+		memberDetailController.setMemberDAO( memberDAO );
+		return memberDetailController;
 	}
 }

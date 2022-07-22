@@ -9,11 +9,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
+import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.util.CollectionUtils;
 
 
 /**
@@ -27,21 +29,21 @@ public class MemberDAO {
 	public MemberDAO( DataSource dataSource ) {
 		this.jdbcTemplate = new JdbcTemplate( dataSource );
 	}
+
 	
-	/**
-	 * email 일치하는 회원 정보를 가져옵니다.
-	 * @param email
-	 * @return
-	 */
-	public Member selectByEmail( String email ) {
-		
-		String query = "select * from MEMBER WHERE EMAIL = ?"; 
-		
-		List<Member> results = jdbcTemplate.query( 
-				query, 
-				new MemberRowMapper(), email ); 
-		return results.isEmpty() ? null : results.get( 0 );
-	}
+	private RowMapper<Member> memberRowMapper = new RowMapper<Member>() {
+		@Override
+		public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+			
+			Member member = new Member( 
+					rs.getString( "EMAIL" )
+					, rs.getString( "PASSWORD" )
+					, rs.getString( "NAME" )
+					, rs.getTimestamp( "REGDATE" ).toLocalDateTime() );
+			member.setMemberId( rs.getLong( "ID" ) );
+			return member;
+		}
+	}; 
 	
 	/**
 	 * 새 Member 추가
@@ -97,11 +99,25 @@ public class MemberDAO {
 		
 		String query = "select * from MEMBER";
 		
-		List<Member> results = jdbcTemplate.query(
-				query,
-				new MemberRowMapper());
+		List<Member> results = jdbcTemplate.query( query, memberRowMapper );
+		
 		return results;
 	} 
+	
+	
+	/**
+	 * email 일치하는 회원 정보를 가져옵니다.
+	 * @param email
+	 * @return
+	 */
+	public Member selectByEmail( String email ) {
+		
+		String query = "select * from MEMBER WHERE EMAIL = ?"; 
+		
+		List<Member> results = jdbcTemplate.query( query, memberRowMapper, email ); 
+		
+		return results.isEmpty() ? null : results.get( 0 );
+	}
 	
 	/**
 	 * 회원 총 수를 가져옵니다.
@@ -119,45 +135,21 @@ public class MemberDAO {
 		return count;
 	}
 	
-	/**
-	 * RowMapper 구현을 여러곳에서 사용하기 위해
-	 * @author cheeeeze
-	 */
-	public class MemberRowMapper implements RowMapper<Member> {
-
-		@Override
-		public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
-			Member member = new Member(
-					rs.getString( "EMAIL" ),
-					rs.getString( "PASSWORD" ),
-					rs.getString( "NAME" ),
-					rs.getTimestamp( "REGDATE" ).toLocalDateTime() );
-			member.setMemberId( rs.getLong( "ID" ) );
-			return member;
-		}
-		
-	}
-	
 	public List<Member> selectByRegdate( LocalDateTime from, LocalDateTime to ) {
 		
 		String query = "select * from member where regdate between ? and ? order by regdate desc";
 		
-		List<Member> memberList = jdbcTemplate.query( query, new RowMapper<Member>() {
-			
-			@Override
-			public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
-				
-				Member member = new Member( 
-						rs.getString( "EMAIL" )
-						, rs.getString( "PASSWORD" )
-						, rs.getString( "NAME" )
-						, rs.getTimestamp( "REGDATE" ).toLocalDateTime() );
-				member.setMemberId( rs.getLong( "ID" ) );
-				return member;
-			}
-		}, from, to );
+		List<Member> memberList = jdbcTemplate.query( query, memberRowMapper, from, to );
 		
 		return memberList;
 	}
 	
+	public Member selectById( Long memberId ) {
+		
+		String query = "select * from member where id = ?";
+		
+		List<Member> memberList = jdbcTemplate.query( query, memberRowMapper, memberId );
+		
+		return memberList.isEmpty() ? null : memberList.get( 0 );
+	}
 }
