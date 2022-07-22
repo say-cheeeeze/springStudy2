@@ -62,6 +62,9 @@ public class Member {
 		System.out.println( "ID : " + this.memberId + " / NAME : " + this.memberName + " / EMAIL : " + this.memberEmail );
 	}
 	
+	public boolean matchPassword( String password ) {
+		return this.memberPassword.equals( password );
+	}
 	
 	
 }
