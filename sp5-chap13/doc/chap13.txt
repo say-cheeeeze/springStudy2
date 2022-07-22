@@ -1,0 +1,36 @@
+
+Chapter13 : 세션, 인터셉터, 쿠키 
+
+MySQL DB DataSource 적용,
+스프링 message,
+Bean Validation 적용
+
+====================================================
+mysql 정보 
+
+username : spring5
+password : spring5
+로 계정을 만들고
+
+spring5fs
+database 를 생성한다.
+
+create user 'spring5'@'localhost' identified by 'spring5';
+
+create database spring5fs character set=utf8
+
+grant all privileges on spring5fs.* to 'spring5'@'localhost';
+
+create table spring5fs.MEMBER (
+ID int auto_increment primary key,
+EMAIL varchar(255),
+PASSWORD varchar(100),
+NAME varchar(100),
+REGDATE datetime,
+unique key (EMAIL)
+) engine=InnoDB character set = utf8
+
+작업 전 mysql 서버 구동 먼저 해야함!
+====================================================
+
+
