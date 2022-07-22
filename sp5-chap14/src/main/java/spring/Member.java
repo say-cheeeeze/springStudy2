@@ -30,7 +30,7 @@ public class Member {
 		this.memberId = memberId;
 	}
 	
-	public Long getId() {
+	public Long getMemberId() {
 		return this.memberId;
 	}
 	

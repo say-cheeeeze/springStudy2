@@ -8,10 +8,12 @@ import api.ChangePwdController;
 import api.LoginController;
 import api.LogoutController;
 import api.MainController;
+import api.MemberSearchController;
 import api.RegistAPIController;
 import api.SurveyAPIController;
 import spring.AuthService;
 import spring.ChangePasswordService;
+import spring.MemberDAO;
 import spring.MemberRegistService;
 
 @Configuration
@@ -25,6 +27,9 @@ public class ControllerConfig {
 	
 	@Autowired
 	private ChangePasswordService changePasswordService;
+	
+	@Autowired
+	private MemberDAO memberDAO;
 	
 	@Bean
 	public RegistAPIController registAPIController() {
@@ -61,5 +66,12 @@ public class ControllerConfig {
 		ChangePwdController changePwdController =  new ChangePwdController();
 		changePwdController.setChangePasswordService( changePasswordService );
 		return changePwdController;
+	}
+	
+	@Bean
+	public MemberSearchController memberSearchController() {
+		MemberSearchController memberSearchController = new MemberSearchController();
+		memberSearchController.setMemberDAO( memberDAO );
+		return memberSearchController;
 	}
 }
