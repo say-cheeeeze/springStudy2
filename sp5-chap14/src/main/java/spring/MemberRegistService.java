@@ -37,7 +37,7 @@ public class MemberRegistService {
 		
 		memberDAO.insert( newMember );
 		
-		return newMember.getId();
+		return newMember.getMemberId();
 	}
 	
 }

@@ -4,6 +4,10 @@ import java.time.LocalDateTime;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *	Member객체
  * @author cheeeeze

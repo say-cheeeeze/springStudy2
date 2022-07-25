@@ -12,6 +12,7 @@ import api.MemberDetailController;
 import api.MemberSearchController;
 import api.RegistAPIController;
 import api.SurveyAPIController;
+import rest.RestMemberController;
 import spring.AuthService;
 import spring.ChangePasswordService;
 import spring.MemberDAO;
@@ -81,5 +82,13 @@ public class ControllerConfig {
 		MemberDetailController memberDetailController = new MemberDetailController();
 		memberDetailController.setMemberDAO( memberDAO );
 		return memberDetailController;
+	}
+	
+	@Bean
+	public RestMemberController restMemberController() {
+		RestMemberController restMemberController = new RestMemberController();
+		restMemberController.setMemberDAO( memberDAO );
+		restMemberController.setMemberRegistService( memberRegistService );
+		return restMemberController;
 	}
 }
